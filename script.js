@@ -34,5 +34,21 @@ function agregarEstudiante(){
         colorPromedio = "color: red;";
     }
 
+    let tabla = document.getElementById('tablaEstudiantes');
+    let nuevaFila = document.createElement('tr');
+
+  nuevaFila.innerHTML = `
+  
+        <td>${nombre}</td>
+        <td>${apellido}</td>
+        <td style="${colorPromedio}">${promedio.toFixed(1)}</td>
+        <td><span class="${claseEstado}">${estado}</span></td>
+
+    `;
+
+    tabla.appendChild(nuevaFila);
+
+    // limpiamos el formulario
+    document.getElementById('formEstudiante').reset();
 
 }
