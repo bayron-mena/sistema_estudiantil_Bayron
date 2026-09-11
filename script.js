@@ -3,7 +3,11 @@ function agregarEstudiante(){
 
     let nombre = document.getElementById('nombre').value.trim();
     let apellido = document.getElementById('apellido').value.trim();
-    let promedio = parseFloat(document.getElementById('promedio').value);
+
+    let nota1 = parseFloat(document.getElementById('nota1').value);
+    let nota2 = parseFloat(document.getElementById('nota2').value);
+    let nota3 = parseFloat(document.getElementById('nota3').value);
+
 
     // tengo q validar que no falten los datos ni ponga notas tontas
 
@@ -12,18 +16,26 @@ function agregarEstudiante(){
         return;
     }
 
-    if(isNaN(promedio) || promedio < 1.0 || promedio > 7.0){
+    if(isNaN(nota1) || nota1 < 1.0 || nota1 > 7.0||
+       isNaN(nota2) || nota2 < 1.0 || nota2 > 7.0||
+       isNaN(nota3) || nota3 < 1.0 || nota3 > 7.0){
 
-        alert("El promedio debe ser un numero valido entre 1.0 & 7.0")
+        alert("Las tres notas deben ser un numero valido entre 1.0 & 7.0");
         return;
 
     }
+
+    // calcular promedio
+    let calculoPromedio = (nota1 * 0.3) + (nota2 * 0.4) + (nota3 * 0.3);
+
+    //redondeamos para no tener numeros enteros
+    let promedio = parseFloat(calculoPromedio.toFixed(1));
 
    // reglas de negocio mayor a 4 aprobado y menor reprobado
     let estado = "";
     let claseEstado = "";
     let colorPromedio = "";
-    let colorTextoEstado = ""; // 1. Creamos esta nueva variable para el color de la palabra
+    let colorTextoEstado = "";
 
     if(promedio >= 4.0){ 
         estado = "Aprobado";
@@ -32,16 +44,18 @@ function agregarEstudiante(){
         estado = "Reprobado";
         claseEstado = "reprobado"; 
         colorPromedio = "color: red;";
-        colorTextoEstado = "color: red;"; // 2. Forzamos el rojo aquí
+        colorTextoEstado = "color: red;";
     }
 
     let tabla = document.getElementById('tablaEstudiantes');
     let nuevaFila = document.createElement('tr');
 
-    // 3. Agregamos el style="${colorTextoEstado}" dentro del span del estado
     nuevaFila.innerHTML = `
         <td>${nombre}</td>
         <td>${apellido}</td>
+        <td>${nota1.toFixed(1)}</td>
+        <td>${nota2.toFixed(1)}</td>
+        <td>${nota3.toFixed(1)}</td>
         <td style="${colorPromedio}">${promedio.toFixed(1)}</td>
         <td><span class="${claseEstado}" style="${colorTextoEstado}">${estado}</span></td>
     `;
