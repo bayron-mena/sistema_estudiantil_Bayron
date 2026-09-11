@@ -19,31 +19,31 @@ function agregarEstudiante(){
 
     }
 
-    // reglas de negocio mayor a 4 aprobado y menor reprobado
-
+   // reglas de negocio mayor a 4 aprobado y menor reprobado
     let estado = "";
     let claseEstado = "";
     let colorPromedio = "";
+    let colorTextoEstado = ""; // 1. Creamos esta nueva variable para el color de la palabra
 
-    if(promedio < 4.0){
+    if(promedio >= 4.0){ 
         estado = "Aprobado";
-        claseEstado = "Estudiante Aprobado.";
+        claseEstado = "aprobado"; 
     } else {
         estado = "Reprobado";
-        claseEstado = "Estudiante Reprobado.";
+        claseEstado = "reprobado"; 
         colorPromedio = "color: red;";
+        colorTextoEstado = "color: red;"; // 2. Forzamos el rojo aquí
     }
 
     let tabla = document.getElementById('tablaEstudiantes');
     let nuevaFila = document.createElement('tr');
 
-  nuevaFila.innerHTML = `
-  
+    // 3. Agregamos el style="${colorTextoEstado}" dentro del span del estado
+    nuevaFila.innerHTML = `
         <td>${nombre}</td>
         <td>${apellido}</td>
         <td style="${colorPromedio}">${promedio.toFixed(1)}</td>
-        <td><span class="${claseEstado}">${estado}</span></td>
-
+        <td><span class="${claseEstado}" style="${colorTextoEstado}">${estado}</span></td>
     `;
 
     tabla.appendChild(nuevaFila);
