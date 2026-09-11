@@ -8,9 +8,9 @@ function agregarEstudiante(){
     let nota2 = parseFloat(document.getElementById('nota2').value);
     let nota3 = parseFloat(document.getElementById('nota3').value);
 
+    let asistencia = parseFloat(document.getElementById('asistencia').value);
 
     // tengo q validar que no falten los datos ni ponga notas tontas
-
     if(nombre === "" || apellido === ""){
         alert("Por favor, ingresa el nombre y el apellido.")
         return;
@@ -25,11 +25,14 @@ function agregarEstudiante(){
 
     }
 
-    // calcular promedio
-    let calculoPromedio = (nota1 * 0.3) + (nota2 * 0.4) + (nota3 * 0.3);
+    if(isNaN(asistencia) || asistencia < 0 || asistencia > 100){
 
-    //redondeamos para no tener numeros enteros
-    let promedio = parseFloat(calculoPromedio.toFixed(1));
+        alert("La asistencia debe ser un valor valido entre 0 y 100");
+        return;
+
+    }
+
+    let promedio = parseFloat(((nota1 * 0.3) + (nota2 * 0.4) + (nota3 * 0.3) ).toFixed(1));
 
    // reglas de negocio mayor a 4 aprobado y menor reprobado
     let estado = "";
@@ -37,15 +40,40 @@ function agregarEstudiante(){
     let colorPromedio = "";
     let colorTextoEstado = "";
 
+    if(asistencia < 60){
+
+        estado = "Reprobado por inasistencia";
+        claseEstado = "reprobado";
+        colorTextoEstado = "color: #e99820";
+        colorPromedio = promedio < 4.0 ? "color: red;" : "";
+    } else if(asistencia >= 60 && asistencia < 70){
+
+        if(promedio >= 5.0){
+            estado = "Aprobado";
+            claseEstado = "aprobado"; 
+        } else {
+
+        estado = "Reprobado";
+        claseEstado = "reprobado"; 
+        colorPromedio = "color: red;";
+        colorTextoEstado = promedio < 4.0 ? "color: red;" : "";
+
+        }
+
+    } else {
+
     if(promedio >= 4.0){ 
+
         estado = "Aprobado";
         claseEstado = "aprobado"; 
+
     } else {
         estado = "Reprobado";
         claseEstado = "reprobado"; 
         colorPromedio = "color: red;";
         colorTextoEstado = "color: red;";
     }
+   }
 
     let tabla = document.getElementById('tablaEstudiantes');
     let nuevaFila = document.createElement('tr');
@@ -57,6 +85,7 @@ function agregarEstudiante(){
         <td>${nota2.toFixed(1)}</td>
         <td>${nota3.toFixed(1)}</td>
         <td style="${colorPromedio}">${promedio.toFixed(1)}</td>
+        <td>${asistencia}%</td>
         <td><span class="${claseEstado}" style="${colorTextoEstado}">${estado}</span></td>
     `;
 
